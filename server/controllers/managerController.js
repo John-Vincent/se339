@@ -4,27 +4,39 @@ var bcrypt = require('bcryptjs');
 Vehicle = mongoose.model('Vehicles');
 var jwt = require('jsonwebtoken');
 
-
+const BAD_REQUEST = 400;
 
 exports.create = function(req, res) {
-    var newManager = new Manager ({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-    });
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(newManager.password, salt, function(err, hash) {
-            newManager.password = hash;
-            newManager.save(function(err, manager) {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-            res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
-                if(err)
-                    res.send(error);
-                res.json(manager);
+    if(req.body && req.body.email && req.body.username && req.body.password){
+        var newManager = new Manager ({
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password
         });
-    });
-    });
+
+        //check if manager already exists
+        Manager.findOne({"$or": [{username: newManager.username}, {username:newManager.email}]}, function(err, record){
+            if(record)
+            {
+                res.status(BAD_REQUEST).send("Manager with that username or email already exists,\nplease enter different information");
+            } else {
+                bcrypt.genSalt(10, function(err, salt) {
+                    bcrypt.hash(newManager.password, salt, function(err, hash) {
+                        newManager.password = hash;
+                        newManager.save(function(err, manager) {
+                            res.setHeader('Access-Control-Allow-Origin', '*');
+                            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+                            res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
+                            if (err) res.send(error);
+                            res.json(manager);
+                        });
+                    });
+                });
+            }
+        });
+    } else {
+        res.status(BAD_REQUEST).send("Request is missing username, password, or email. All three are required.");
+    }
 };
 
 exports.deleteByUsername = function(req, res) {
@@ -70,10 +82,8 @@ exports.comparePassword = function(req, res){
             else {
                 res.json({ Validated: false});
             }
-
         });
     });
-
 };
 
 exports.updateVehicles = function(req, res) {

@@ -5,7 +5,6 @@ module.exports = function(app) {
 	const path = require('path');
 
 	//Example of how to render html file upon get request
-
 	app.route('/api/example')
 		.get(example.listAll)
 		.post(example.create);
