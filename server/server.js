@@ -10,7 +10,7 @@ var express = require('express'),
 	mongodb = require('mongodb'),
 	nconf = require('nconf');
 server = true;
-jwt_secret = process.env.JWT_SECRET || "nicememe"''
+jwt_secret = process.env.JWT_SECRET || "nicememe";
 
 if(server)
 {
