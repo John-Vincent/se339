@@ -10,7 +10,6 @@ exports.create = function(req, res) {
     if(req.body && req.body.email && req.body.username && req.body.password){
         var newManager = new Manager ({
             username: req.body.username,
-            email: req.body.email,
             password: req.body.password
         });
 

@@ -1,15 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
-@Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
-})
-export class RegisterComponent implements OnInit {
+@Component(
+    {
+        selector: 'app-register',
+        templateUrl: './register.component.html',
+        styleUrls: ['./register.component.css']
+    }
+)
+export class RegisterComponent implements OnInit 
+{
+    @ViewChild('username')
+    private username;
 
-  constructor() { }
+    @ViewChild('password')
+    private password;
 
-  ngOnInit() {
-  }
+    constructor(
+        private router: Router
+    ) { }
 
+    ngOnInit() { }
+
+    navigateToLogin()
+    {
+        this.router.navigateByUrl('/');
+    }
+
+    register() 
+    {
+        //TODO
+        console.log(this.username.nativeElement.value);
+        console.log(this.password.nativeElement.value);
+    }
 }

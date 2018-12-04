@@ -5,11 +5,11 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
-    {path:'', redirectTo: '/dashboard'},
-    {path: '/login', component: LoginComponent, canActivate: [AuthGuardService]},
-    {path: '/dashboard', loadChildren:'./manager/manager.module#ManagerModule', canActivate: [AuthGuardService]},
-    {path: '/vehicle', loadChildren:'./vehicle/vehicle.module#VehicleModule', canActivate: [AuthGuardService]},
-    {path: '/register', component: RegisterComponent},
+    {path:'', redirectTo: 'dashboard', pathMatch: 'full'},
+    {path: 'login', component: LoginComponent, canActivate: [AuthGuardService]},
+    {path: 'dashboard', loadChildren:'./manager/manager.module#ManagerModule', canActivate: [AuthGuardService]},
+    {path: 'vehicle', loadChildren:'./vehicle/vehicle.module#VehicleModule', canActivate: [AuthGuardService]},
+    {path: 'register', component: RegisterComponent},
 ];
 
 @NgModule({

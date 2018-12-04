@@ -1,10 +1,14 @@
 const express = require('express'),
 	app = express(),
-	ports = process.env.PORT || 8080,
+    ports = process.env.PORT || 8080,
+    Example = require('./models/exampleModel'),
+    Manager = require('./models/managerModel'),
+    Vehicle = require('./models/vehicleModel'),
 	bodyParser = require('body-parser'),
     router = require('./routes/router'),
     db = require('./modules/db.js')
-	nconf = require('nconf');
+    nconf = require('nconf');
+    mongoose = require('mongoose');
 
 const jwt_secret = process.env.JWT_SECRET || "nicememe";
 

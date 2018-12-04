@@ -1,3 +1,24 @@
-<p>
-  register works!
-</p>
+<h1>Fleet Manager Registration</h1>
+<div style="width:270px" #login>
+    <label for="username">Username </label>
+    <br/>
+    <input type="text" #username>
+    <br/>
+
+    <label for="password">Password</label>
+    <br/>
+    <input type="password" #password>
+    <br/>
+
+    <label for="confirmPassword">Confirm Password</label>
+    <br/>
+    <input type="password" #confirmPassword>
+    <br/>
+
+    <div style="padding-top:10px; padding-right: 9px">
+        <button (click)="register()">Register</button> 
+        <br/>
+        <button (click)="navigateToLogin()">Navigate to Login</button>
+    </div>    
+</div>
+    
