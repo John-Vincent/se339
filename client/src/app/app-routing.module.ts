@@ -7,8 +7,8 @@ import { RegisterComponent } from './register/register.component';
 const routes: Routes = [
     {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
     {path: 'login', component: LoginComponent, canActivate: [AuthGuardService]},
-    { path: 'dashboard', loadChildren: './manager/manager.module#ManagerModule', canActivate: [AuthGuardService]},
-    { path: 'vehicle', loadChildren: './vehicle/vehicle.module#VehicleModule', canActivate: [AuthGuardService]},
+    {path: 'dashboard', loadChildren: './manager/manager.module#ManagerModule', canActivate: [AuthGuardService]},
+    {path: 'vehicle', loadChildren: './vehicle/vehicle.module#VehicleModule', canActivate: [AuthGuardService]},
     {path: 'register', component: RegisterComponent},
 ];
 
