@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
         styleUrls: ['./register.component.css']
     }
 )
-export class RegisterComponent implements OnInit 
+export class RegisterComponent implements OnInit
 {
     @ViewChild('username')
     private username;
@@ -24,10 +24,10 @@ export class RegisterComponent implements OnInit
 
     navigateToLogin()
     {
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/login');
     }
 
-    register() 
+    register()
     {
         //TODO
         console.log(this.username.nativeElement.value);
