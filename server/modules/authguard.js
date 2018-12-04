@@ -2,11 +2,12 @@ var jwt = require("jsonwebtoken");
 
 var authguard = function(req,res,next)
 {
-    if(req && req.header && req.header.Authorization)
+    console.log("authorizing request to " + req.path);
+    if(req && req.headers && req.headers.authorization)
     {
         try
         {
-            var decode = jwt.verify(req.header.Authentication, jwt_secret);
+            var decode = jwt.verify(req.headers.authorization, jwt_secret);
             req.token = decode;
             next();
         }

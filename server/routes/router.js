@@ -7,11 +7,11 @@ var manager = require(path.resolve(__dirname, '../controllers/managerController'
 var vehicle = require(path.resolve(__dirname, '../controllers/vehicleController'));
 
 //Example of how to render html file upon get request
-auth.route('/example')
+noauth.route('/example')
     .get(example.listAll)
     .post(example.create);
 
-auth.route('/example/:vid')
+noauth.route('/example/:vid')
     .get(example.getByUid)
     .put(example.updateExample)
     .delete(example.deleteByUid);
@@ -26,9 +26,9 @@ noauth.route('/manager/login')
     .post(manager.comparePassword)
 
 auth.route('/manager/:username')
-    .get(manager.getVehicles)
-    .put(manager.updateVehicles)
-    .delete(manager.deleteVehicle);
+    .get(authguard, manager.getVehicles)
+    .put(authguard, manager.updateVehicles)
+    .delete(authguard, manager.deleteVehicle);
 
 auth.route('/vehicle')
     .all(authguard)

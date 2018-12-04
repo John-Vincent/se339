@@ -105,6 +105,88 @@ export class ApiService {
                 {
                     reject(error);
                 });
+        });
+    }
+
+    public createManager(manager:Manager): Promise<Manager>
+    {
+        return new Promise<Manager>((resolve, reject)=>
+        {
+            this.http.post('/api/manager', manager, this.options)
+                .subscribe((data:Manager)=>
+                {
+                    resolve(data);
+                },
+                (error) =>
+                {
+                    reject(error);
+                });
+        });
+    }
+
+    public getManagers(): Promise<Manager[]>
+    {
+        return new Promise<Manager[]>((resolve, reject)=>
+        {
+            this.http.get('/manager', this.options)
+                .subscribe((data:Manager[])=>
+                {
+                    resolve(data);
+                },
+                (error) =>
+                {
+                    reject(error);
+                });
+        });
+    }
+
+    public getManagerVehicles(manager:Manager): Promise<Vehicle[]>
+    {
+        return new Promise<Vehicle[]>((resolve, reject)=>
+        {
+            this.http.get(`/manager/${manager.username}`, this.options)
+                .subscribe((data:Vehicle[])=>
+                {
+                    resolve(data);
+                },
+                (error)=>
+                {
+                    reject(error);
+                });
+        });
+    }
+
+    public updateManagerVehicles(manager:Manager, vehicle:Vehicle[]): Promise<Vehicle[]>
+    {
+        return new Promise<Vehicle[]>((resolve, reject)=>
+        {
+            this.http.put(`/manager/${manager.username}`, vehicle, this.options)
+                .subscribe((data:Vehicle[])=>
+                {
+                    resolve(data);
+                },
+                (error)=>
+                {
+                    reject(error);
+                })
+        });
+    }
+
+    public deleteManagerVehicles(manager:Manager): Promise<any>
+    {
+        return new Promise<any>((resolve, reject)=>
+        {
+            this.http.delete(`/manager/${manager.username}`, this.options)
+                .subscribe((data:any)=>
+                {
+                    resolve(data);
+                },
+                (error)=>
+                {
+                    reject(error);
+                });
         })
     }
+
+    public
 }
