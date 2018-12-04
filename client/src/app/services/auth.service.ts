@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models/user.model';
+import { Manager } from '../models/manager.model';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +11,7 @@ export class AuthService {
         private http: HttpClient
     ) { }
 
-    public login(user:User): Promise<any>
+    public login(user:Manager): Promise<any>
     {
         return new Promise((resolve, reject)=>
         {
@@ -29,7 +29,7 @@ export class AuthService {
         });
     }
 
-    public register(user:User): Promise<any>
+    public register(user:Manager): Promise<any>
     {
         return new Promise((resolve, reject)=>
         {
@@ -47,12 +47,12 @@ export class AuthService {
     public logout()
     {
         localStorage.removeItem('access_token');
-        localStorage.removeItem('experation');
+        localStorage.removeItem('expiration');
     }
 
     public getExpiration(): Date
     {
-        return new Date(localStorage.getItem('exeration'));
+        return new Date(localStorage.getItem('expiration'));
     }
 
     public getToken(): String
