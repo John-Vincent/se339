@@ -2,15 +2,15 @@ import { Chart } from "./chart.model"
 
 export class Manager 
 {
-    constructor(username: string, password: string)
+    constructor(username: String, password: String)
     {
         this.username = username;
         this.password = password;
     }
 
-    username: string;
-    password: string;
-    name: string;
+    username: String;
+    password: String;
+    name: String;
     vehicles: Array<number>;
     charts: Array<Chart>;
 }

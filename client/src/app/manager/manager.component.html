@@ -2,21 +2,42 @@
 <div>
     
 </div>
-<div *ngIf="!addingVehicles">
-    <button (click)="addVehicleView()">Add Vehicle</button>
-    <p>TRUE</p>
+<div *ngIf="!addingVehicle">
+    <button (click)="setAddVehicleView()">Add Vehicle to Fleet</button>
+    <br/>
     <li *ngFor="let vehicle of manager.vehicles">
         Vehicle {{vehicle.vid}} <button (click)="viewVehicle(vehicle)">View</button>
     </li>
 </div>
-<div *ngIf="addingVehicle && !creatingVehicle">
-    <button (click)="createVehicleView()">Create New Vehicle</button>
-    <li *ngFor="let vehicle of allVehicles">
-        Vehicle {{vehicle.vid}} <button (click)="addVehicle(vehicle)">Add</button>
+<div *ngIf="addingVehicle && !creatingVehicle" style="width:350px">
+    <button (click)="setCreateVehicleView()">Create New Vehicle</button>
+    <button (click)="unsetAddVehicleView()">Back</button>
+    <li *ngFor="let vehicle of allVehicles" style="max-width:350px">
+        Vehicle {{vehicle.vid}} <button (click)="addVehicle(vehicle)" style="position:fixed;left:155px;">Add</button>
     </li>
 </div>
 <div *ngIf="creatingVehicle">
-    <label for="vid">Enter Desired Vehicle ID</label>
+    <h6>Enter Vehicle Information</h6>
+    <label for="vid">Vehicle ID</label>
     <br/>
     <input type="text" #vid>
+    <br/>
+
+    <label for="gasTankSize">Gas Tank Size</label>
+    <br/>
+    <input type="text" #gasTankSize>
+    <br/>
+
+    <label for="bitrate">Bitrate</label>
+    <br/>
+    <input type="text" #bitrate>
+    <br/>
+
+    <label for="msg">Initial Message</label>
+    <br/>
+    <input type="text" #msg>
+    <br/>
+
+    <button (click)="createVehicle()">Create</button>
+    <button (click)="unsetCreateVehicleView()">Back</button>
 </div>

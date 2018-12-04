@@ -109,6 +109,8 @@ exports.updateVehicles = function(req, res) {
             if(err)
                 res.send(err);
             res.json(managerv.vehicles);
+
+            return;
         });
     });
 
@@ -121,15 +123,16 @@ exports.updateVehicles = function(req, res) {
             res.send(err);
         if(!vehicle){
             result = new Vehicle(req.body);
+            
+            result.save(function(err, vehiclen) {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+                res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
+                if(err)
+                    res.send(err);
+                //res.json(vehiclen);
+            });
         }
-        result.save(function(err, vehiclen) {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-            res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
-            if(err)
-                res.send(err);
-            //res.json(vehiclen);
-        });
     });
 };
 

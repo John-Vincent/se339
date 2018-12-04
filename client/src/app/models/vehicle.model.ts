@@ -12,6 +12,14 @@ export class Vehicle
     public bitrate: Number;
     public gasTankSize: Number;
     public data: VehicleData[]
+
+    constructor(vid: Number, gasTankSize: Number, bitrate: Number, msg: String)
+    {
+        this.vid = vid;
+        this.gasTankSize = gasTankSize;
+        this.bitrate = bitrate;
+        this.msg = msg;
+    }
 }
 
 export class VehicleData {

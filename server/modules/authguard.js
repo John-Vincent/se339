@@ -10,7 +10,7 @@ var authguard = function(req,res,next)
         {
             var decode = jwt.verify(req.headers.authorization, jwt_secret);
             req.token = decode;
-            if(Date.now()/1000 > decode.exp)
+            if(Date.now()/1000 < decode.exp)
                 next();
             else
                 throw 'expired';

@@ -157,12 +157,12 @@ export class ApiService {
         });
     }
 
-    public updateManagerVehicles(manager:Manager, vehicle:Vehicle): Promise<Vehicle>
+    public updateManagerVehicles(manager:Manager, vehicle:Vehicle): Promise<any[]>
     {
-        return new Promise<Vehicle>((resolve, reject)=>
+        return new Promise<any[]>((resolve, reject)=>
         {
-            this.http.put(`/manager/${manager.username}`, vehicle, this.options)
-                .subscribe((data:Vehicle)=>
+            this.http.put(`/api/manager/${manager.username}`, vehicle, this.options)
+                .subscribe((data:any[])=>
                 {
                     resolve(data);
                 },
