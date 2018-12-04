@@ -15,7 +15,7 @@ export class AuthService {
     {
         return new Promise((resolve, reject)=>
         {
-            this.http.post('/api/login', user)
+            this.http.post('/api/manager/login', user)
                 .subscribe((data:any)=>
                 {
                     localStorage.setItem('access_token', data.token);
@@ -33,9 +33,9 @@ export class AuthService {
     {
         return new Promise((resolve, reject)=>
         {
-            this.http.post('/api/register', user)
+            this.http.post('/api/manager', user)
                 .subscribe((data:any)=>{
-                    resolve(user);
+                    resolve(data);
                 },
                 (error)=>
                 {

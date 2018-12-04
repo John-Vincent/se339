@@ -11,13 +11,13 @@ import { AuthService } from '../services/auth.service';
     }
 )
 
-/** 
+/**
  * Login Component
- * @author Matt Bechtel | mattbechtel123@gmail.com 
- * @date 2018-12-03 20:42:29 
+ * @author Matt Bechtel | mattbechtel123@gmail.com
+ * @date 2018-12-03 20:42:29
  */
-export class LoginComponent implements OnInit 
-{  
+export class LoginComponent implements OnInit
+{
     @ViewChild('username')
     private username;
 
@@ -31,14 +31,14 @@ export class LoginComponent implements OnInit
         private authService: AuthService
     ) { }
 
-    ngOnInit() 
+    ngOnInit()
     {
     }
 
     /**
      * On 'Login' button press, send login information to server
      */
-    login() 
+    shmogin()
     {
         //TODO
         console.log(this.username.nativeElement.value);
@@ -69,5 +69,3 @@ export class LoginComponent implements OnInit
         this.router.navigateByUrl('/register');
     }
 }
-
-

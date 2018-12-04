@@ -22,7 +22,7 @@ auth.route('/manager')
     .get(manager.listAll);
 
 noauth.route('/manager')
-      .get(manager.create);
+      .post(manager.create);
 
 noauth.route('/manager/login')
     .post(manager.comparePassword)
