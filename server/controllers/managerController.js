@@ -76,7 +76,7 @@ exports.comparePassword = function(req, res, next){
         bcrypt.compare(req.body.password, manager.password, function(err, isMatch) {
             if(err) throw err;
             if(isMatch) {
-                res.json({ Validated: true, jwt: jwt.sign(JSON.stringify(manager), jwt_secret)});
+                res.json({ Validated: true, jwt: jwt.sign(JSON.stringify(manager), jwt_secret), manager: manager});
             }
             else {
                 res.json({ Validated: false});

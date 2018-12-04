@@ -20,6 +20,7 @@ export class AuthService {
                 {
                     localStorage.setItem('access_token', data.token);
                     localStorage.setItem('experation', data.expire);
+                    localStorage.setItem('manager', JSON.stringify(data.manager));
                     resolve(data);
                 },
                 (error)=>
@@ -58,5 +59,10 @@ export class AuthService {
     public getToken(): String
     {
         return localStorage.getItem('access_token');
+    }
+
+    public getManager(): Manager
+    {
+        return JSON.parse(localStorage.getItem('manager'));
     }
 }

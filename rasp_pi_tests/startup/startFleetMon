@@ -10,7 +10,7 @@ DID=$(cat ${DRIVER_FILE_LOCATION})
 
 VID=5
 
-SERVER_URI="http://35.193.191.2:8080"
+SERVER_URI="https://se329-05.ece.iastate.edu"
 
 # Set logging  to -l to log
 LOGGING="-l"
