@@ -18,13 +18,30 @@ export class ApiService {
 
     public getVehicles(): Promise<Vehicle[]>
     {
-        this.http.get('/api/vehicle', this.options)
-        return null;
+        return new Promise<Vehicle[]>((resolve, reject)=>
+        {
+            this.http.get('/api/vehicle', this.options)
+                .subscribe((data:Vehicle[])=>{
+                    resolve(data);
+                },
+                (error)=>{
+                    reject(error);
+                });
+        });
     }
 
     public getVehicle(vehicle:Vehicle): Promise<Vehicle>
     {
-        return null;
+        return new Promise<Vehicle>((resolve,reject)=>
+        {
+            this.http.get('/api/vehicle', this.options)
+                .subscribe((data:Vehicle)=>{
+                    resolve(data);
+                },
+                (error)=>{
+                    reject(error);
+                });
+        });
     }
 
     public createVehicle(vehicle:Vehicle): Promise<Vehicle>

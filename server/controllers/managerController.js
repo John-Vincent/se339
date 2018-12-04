@@ -80,7 +80,7 @@ exports.comparePassword = function(req, res, next){
                 res.json(
                     {
                         Validated: true,
-                        jwt: jwt.sign(
+                        access_token: jwt.sign(
                             {
                                 exp: Math.floor(Date.now() / 1000) + (60 * 10),
                                 data: JSON.stringify(manager)
@@ -88,7 +88,7 @@ exports.comparePassword = function(req, res, next){
                             jwt_secret
                         ),
                         manager: manager,
-                        expire: new Date(exp).toUTCString()
+                        expiration: new Date(exp).toUTCString()
                     });
             }
             else {

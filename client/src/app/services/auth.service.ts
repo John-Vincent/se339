@@ -19,7 +19,7 @@ export class AuthService {
                 .subscribe((data:any)=>
                 {
                     localStorage.setItem('access_token', data.token);
-                    localStorage.setItem('experation', data.expire);
+                    localStorage.setItem('expiration', data.expire);
                     localStorage.setItem('manager', JSON.stringify(data.manager));
                     resolve(data);
                 },
