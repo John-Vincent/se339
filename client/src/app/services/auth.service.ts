@@ -18,8 +18,8 @@ export class AuthService {
             this.http.post('/api/manager/login', user)
                 .subscribe((data:any)=>
                 {
-                    localStorage.setItem('access_token', data.token);
-                    localStorage.setItem('expiration', data.expire);
+                    localStorage.setItem('access_token', data.access_token);
+                    localStorage.setItem('expiration', data.expiration);
                     localStorage.setItem('manager', JSON.stringify(data.manager));
                     resolve(data);
                 },
