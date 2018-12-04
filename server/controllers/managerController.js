@@ -88,7 +88,7 @@ exports.comparePassword = function(req, res, next){
                             jwt_secret
                         ),
                         manager: manager,
-                        expiration: new Date(exp).toUTCString()
+                        expiration: new Date(Date.now() + exp).toUTCString()
                     });
             }
             else {

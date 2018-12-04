@@ -14,7 +14,7 @@ export class AuthGuardService implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean
     {
         var login = state.url == '/login';
-        var expire = localStorage.getItem('expire'), token = localStorage.getItem('access_token');
+        var expire = localStorage.getItem('expiration'), token = localStorage.getItem('access_token');
         if(token && expire && new Date() < new Date(expire))
         {
             if(login)

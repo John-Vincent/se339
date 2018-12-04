@@ -1,18 +1,28 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ManagerService } from './manager.service'
+import { AuthService } from '../services/auth.service';
+import { Manager } from '../models/manager.model';
 
-@Component({
-  selector: 'app-manager',
-  templateUrl: './manager.component.html',
-  styleUrls: ['./manager.component.css']
-})
-export class ManagerComponent implements OnInit {
+@Component(
+    {
+        selector: 'app-manager',
+        templateUrl: './manager.component.html',
+        styleUrls: ['./manager.component.css']
+    }
+)
+export class ManagerComponent implements OnInit 
+{
+    private manager: Manager;
 
-  constructor(
-      managerService: ManagerService
-  ) { }
+    constructor(
+        private authService: AuthService,
+        private router: Router 
+    ) { }
 
-  ngOnInit() {
-  }
-
+    ngOnInit() 
+    {
+        this.manager = this.authService.getManager();
+        console.log(this.manager); 
+    }
 }

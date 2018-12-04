@@ -48,11 +48,16 @@ export class LoginComponent implements OnInit
         this.authService.login(this.manager).then(this.loginSuccessful).catch(this.loginFailed);
     }
 
-    private loginSuccessful(res)
+    private loginSuccessful = (() => 
     {
-        alert("Login Successful");
-        console.log(res);
-    }
+        var that = this;
+        return ((res) =>
+        {
+            that.router.navigateByUrl('/dashboard');
+            //alert("Login Successful");
+            console.log(res);
+        })
+    })();
 
     private loginFailed(err)
     {
