@@ -23,20 +23,20 @@ export class RegisterComponent implements OnInit
     constructor(
         private router: Router,
         private authService: AuthService
-    ) { } 
+    ) { }
 
     ngOnInit() { }
 
     navigateToLogin()
     {
-        this.router.navigateByUrl('/login'); 
+        this.router.navigateByUrl('/login');
     }
 
     register()
     {
         // console.log(this.username.nativeElement.value);
         // console.log(this.password.nativeElement.value);
-        this.manager = new Manager(this.username, this.password);
+        this.manager = new Manager(this.username.nativeElement.value, this.password.nativeElement.value);
         this.authService.register(this.manager).then(this.registerSuccessful).catch(this.registerFailed);
     }
 

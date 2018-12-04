@@ -2,7 +2,7 @@ var jwt = require("jsonwebtoken");
 
 var authguard = function(req,res,next)
 {
-    if(req && req.header && req.header['jwt-token'])
+    if(req && req.header && req.header.Authorization)
     {
         try
         {

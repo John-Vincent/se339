@@ -10,7 +10,7 @@ const express = require('express'),
     nconf = require('nconf');
     mongoose = require('mongoose');
 
-const jwt_secret = process.env.JWT_SECRET || "nicememe";
+jwt_secret = process.env.JWT_SECRET || "nicememe";
 
 if(!process.env.LOCAL_DB)
 {
@@ -24,5 +24,9 @@ app.use(bodyParser.urlencoded({extended: true }));
 app.use(bodyParser.json());
 app.use('/api', router.auth);
 app.use('/api', router.noauth);
+
+app.use(function(err, req,res,next){
+    console.log(err);
+})
 
 module.exports = app;

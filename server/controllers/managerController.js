@@ -7,14 +7,14 @@ var jwt = require('jsonwebtoken');
 const BAD_REQUEST = 400;
 
 exports.create = function(req, res) {
-    if(req.body && req.body.email && req.body.username && req.body.password){
+    if(req.body && req.body.username && req.body.password){
         var newManager = new Manager ({
             username: req.body.username,
             password: req.body.password
         });
 
         //check if manager already exists
-        Manager.findOne({"$or": [{username: newManager.username}, {username:newManager.email}]}, function(err, record){
+        Manager.findOne({username: newManager.username}, function(err, record){
             if(record)
             {
                 res.status(BAD_REQUEST).send("Manager with that username or email already exists,\nplease enter different information");
@@ -22,11 +22,11 @@ exports.create = function(req, res) {
                 bcrypt.genSalt(10, function(err, salt) {
                     bcrypt.hash(newManager.password, salt, function(err, hash) {
                         newManager.password = hash;
-                        newManager.save(function(err, manager) {
+                        newManager.save(function(error, manager) {
                             res.setHeader('Access-Control-Allow-Origin', '*');
                             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
                             res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
-                            if (err) res.send(error);
+                            if (error) res.send(error);
                             res.json(manager);
                         });
                     });
@@ -66,17 +66,17 @@ exports.getManagerByUsername = function(username, callback){
 };
 
 
-exports.comparePassword = function(req, res){
-    Manager.findOne({username: req.body.username}, function(err, managerv) {
+exports.comparePassword = function(req, res, next){
+    Manager.findOne({username: req.body.username}, function(err, manager) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
             res.send(err);
-        bcrypt.compare(req.body.password, managerv.password, function(err, isMatch) {
+        bcrypt.compare(req.body.password, manager.password, function(err, isMatch) {
             if(err) throw err;
             if(isMatch) {
-                res.json({ Validated: true, jwt: jwt.sign(managerv, jwt_secret)});
+                res.json({ Validated: true, jwt: jwt.sign(JSON.stringify(manager), jwt_secret)});
             }
             else {
                 res.json({ Validated: false});

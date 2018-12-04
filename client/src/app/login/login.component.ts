@@ -38,13 +38,13 @@ export class LoginComponent implements OnInit
     /**
      * On 'Login' button press, send login information to server
      */
-    submit() 
+    submit()
     {
         //TODO
         console.log(this.username.nativeElement.value);
         console.log(this.password.nativeElement.value);
 
-        this.manager = new Manager(this.username, this.password);
+        this.manager = new Manager(this.username.nativeElement.value, this.password.nativeElement.value);
         this.authService.login(this.manager).then(this.loginSuccessful).catch(this.loginFailed);
     }
 
