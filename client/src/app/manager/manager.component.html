@@ -1,3 +1,22 @@
-<p>
-  manager works!
-</p>
+<h1>{{manager.username}}'s Fleet</h1>
+<div>
+    
+</div>
+<div *ngIf="!addingVehicles">
+    <button (click)="addVehicleView()">Add Vehicle</button>
+    <p>TRUE</p>
+    <li *ngFor="let vehicle of manager.vehicles">
+        Vehicle {{vehicle.vid}} <button (click)="viewVehicle(vehicle)">View</button>
+    </li>
+</div>
+<div *ngIf="addingVehicle && !creatingVehicle">
+    <button (click)="createVehicleView()">Create New Vehicle</button>
+    <li *ngFor="let vehicle of allVehicles">
+        Vehicle {{vehicle.vid}} <button (click)="addVehicle(vehicle)">Add</button>
+    </li>
+</div>
+<div *ngIf="creatingVehicle">
+    <label for="vid">Enter Desired Vehicle ID</label>
+    <br/>
+    <input type="text" #vid>
+</div>
