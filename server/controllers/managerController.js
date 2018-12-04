@@ -82,13 +82,13 @@ exports.comparePassword = function(req, res, next){
                         Validated: true,
                         access_token: jwt.sign(
                             {
-                                exp: Math.floor(Date.now() / 1000) + (60 * 10),
+                                exp: exp,
                                 data: JSON.stringify(manager)
                             },
                             jwt_secret
                         ),
                         manager: manager,
-                        expiration: new Date(Date.now() + exp).toUTCString()
+                        expiration: new Date(1000*exp).toUTCString()
                     });
             }
             else {

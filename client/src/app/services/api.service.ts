@@ -3,6 +3,7 @@ import { Vehicle } from '../models/vehicle.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Manager } from '../models/manager.model';
 import { AuthService } from './auth.service';
+import { Chart } from '../models/chart.model';
 
 @Injectable()
 export class ApiService {
@@ -156,25 +157,25 @@ export class ApiService {
         });
     }
 
-    public updateManagerVehicles(manager:Manager, vehicle:Vehicle[]): Promise<Vehicle[]>
+    public updateManagerVehicles(manager:Manager, vehicle:Vehicle): Promise<Vehicle>
     {
-        return new Promise<Vehicle[]>((resolve, reject)=>
+        return new Promise<Vehicle>((resolve, reject)=>
         {
             this.http.put(`/manager/${manager.username}`, vehicle, this.options)
-                .subscribe((data:Vehicle[])=>
+                .subscribe((data:Vehicle)=>
                 {
                     resolve(data);
                 },
                 (error)=>
                 {
                     reject(error);
-                })
+                });
         });
     }
 
-    public deleteManagerVehicles(manager:Manager): Promise<any>
+    public deleteManagerVehicles(manager:Manager): Promise<Vehicle>
     {
-        return new Promise<any>((resolve, reject)=>
+        return new Promise<Vehicle>((resolve, reject)=>
         {
             this.http.delete(`/manager/${manager.username}`, this.options)
                 .subscribe((data:any)=>
@@ -185,8 +186,54 @@ export class ApiService {
                 {
                     reject(error);
                 });
-        })
+        });
     }
 
-    public
+    public getManagerChart(manager:Manager): Promise<Chart>
+    {
+        return new Promise<Chart>((resolve, reject)=>
+        {
+            this.http.get(`/manager/chart/${manager.username}`, this.options)
+                .subscribe((data:Chart)=>
+                {
+                    resolve(data);
+                },
+                (error)=>
+                {
+                    reject(error);
+                });
+        });
+    }
+
+    public updateManagerChart(manager:Manager, chart:Chart): Promise<Chart>
+    {
+        return new Promise<Chart>((resolve, reject)=>
+        {
+            this.http.put(`/manager/chart/${manager.username}`, chart, this.options)
+                .subscribe((data:Chart)=>
+                {
+                    resolve(chart);
+                },
+                (error)=>
+                {
+                    reject(error);
+                });
+        });
+    }
+
+    public activateManagerChart(manager:Manager, chart:Chart): Promise<Chart>
+    {
+        return new Promise<Chart>((resolve, reject)=>
+        {
+            this.http.put(`/manager/chart/update/${manager.username}`, chart, this.options)
+                .subscribe((data:Chart)=>
+                {
+                    resolve(chart);
+                },
+                (error)=>
+                {
+                    reject(error);
+                });
+        });
+    }
 }
