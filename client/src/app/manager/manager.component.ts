@@ -9,7 +9,7 @@ import { ManagerService } from './manager.service'
 export class ManagerComponent implements OnInit {
 
   constructor(
-      managerService: ManagerService 
+      managerService: ManagerService
   ) { }
 
   ngOnInit() {

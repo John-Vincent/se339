@@ -56,7 +56,7 @@ export class AuthService {
         return new Date(localStorage.getItem('expiration'));
     }
 
-    public getToken(): String
+    public getToken(): string
     {
         return localStorage.getItem('access_token');
     }

@@ -76,7 +76,20 @@ exports.comparePassword = function(req, res, next){
         bcrypt.compare(req.body.password, manager.password, function(err, isMatch) {
             if(err) throw err;
             if(isMatch) {
-                res.json({ Validated: true, jwt: jwt.sign(JSON.stringify(manager), jwt_secret), manager: manager});
+                var exp = Math.floor(Date.now() / 1000) + (60 * 10);
+                res.json(
+                    {
+                        Validated: true,
+                        jwt: jwt.sign(
+                            {
+                                exp: Math.floor(Date.now() / 1000) + (60 * 10),
+                                data: JSON.stringify(manager)
+                            },
+                            jwt_secret
+                        ),
+                        manager: manager,
+                        expire: new Date(exp).toUTCString()
+                    });
             }
             else {
                 res.json({ Validated: false});
