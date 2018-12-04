@@ -9,6 +9,7 @@ exports.listAll = function(req, res) {
 	});
 };
 
+//todo verify the 
 exports.create = function(req, res) {
 	var newEx = new Example(req.body);
 	newEx.save(function(err, ex) {

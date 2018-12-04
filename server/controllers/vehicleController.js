@@ -3,7 +3,9 @@ var mongoose = require('mongoose'),
 	Data = mongoose.model('Datas');
 
 exports.listAll = function(req, res) {
-	Vehicle.find({}, function(err, vehicle) {
+    var query = Vehicle.find({}).select({});
+
+    query.exec(function(err, vehicle) {
 		res.setHeader('Access-Control-Allow-Origin', '*');
 		res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
 		res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
@@ -26,14 +28,14 @@ exports.create = function(req, res) {
 		}
 		result.save(function(err, vehiclen) {
 			res.setHeader('Access-Control-Allow-Origin', '*');
-		res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-		res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
+            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+            res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
 			if(err)
 				res.send(err);
 			res.json(vehiclen);
 		});
 	});
-	
+
 };
 
 exports.getByUid = function(req, res) {
@@ -104,7 +106,7 @@ exports.updatePid = function(req, res) {
 	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
 	res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
 	Vehicle.findOneAndUpdate({vid: req.params.vid}, {$push: {"pids": req.body }}, {safe: true, upsert: true}, function(err, vehicle) {
-		
+
 		if(err)
 			res.send(err)
 		Vehicle.findOne({vid: vehicle.vid}, function(err, vehicleu) {
@@ -130,7 +132,7 @@ exports.updateVehiclePid = function(req, res) {
 	var v;
 	console.log(req.body.hasOwnProperty('lat'));
 	Vehicle.findOne({vid: req.params.vid}, function(err, vehicle) {
-		
+
 		if(err)
 			//res.send(err);
 		tank = vehicle.gasTankSize;
@@ -141,7 +143,7 @@ exports.updateVehiclePid = function(req, res) {
 		return data * .621371;
 	}});
 	default_pid_map.set(0x2F, {field:'gas', calculation: function(data) {
-		return data * tank / 255.0; 
+		return data * tank / 255.0;
 		// 20 is in as a placeholder, it will probably need to be stored as percentage and then calculated later.
 	}});
 	default_pid_map.set(0x04, {field:'engineLoad', calculation: function(data) {
@@ -169,8 +171,8 @@ exports.updateVehiclePid = function(req, res) {
 			temp = 1;
 		}
 	}
-	
-	
+
+
 	var test = default_pid_map.get(13);
 	//console.log(result);
 	//console.log(req.params);
@@ -184,7 +186,7 @@ exports.updateVehiclePid = function(req, res) {
 			console.log(vehicleu);
 			res.send(err);
 		}
-		v = vehicleu;	
+		v = vehicleu;
 		//res.json(vehicleu);
 	});
 	});
@@ -199,7 +201,7 @@ exports.updateVehiclePid = function(req, res) {
 			console.log(vehicleu);
 			res.send(err);
 		}
-		v = vehicleu;		
+		v = vehicleu;
 		//res.json(vehicleu);
 	});
 	});
@@ -214,7 +216,7 @@ exports.updateVehiclePid = function(req, res) {
 			console.log(vehicleu);
 			res.send(err);
 		}
-		v = vehicleu;		
+		v = vehicleu;
 		//res.json(vehicleu);
 	});
 	});
@@ -229,7 +231,7 @@ exports.updateVehiclePid = function(req, res) {
 			console.log(vehicleu);
 			res.send(err);
 		}
-		v = vehicleu;		
+		v = vehicleu;
 		//res.json(vehicleu);
 	});
 	});
@@ -246,13 +248,13 @@ exports.updateVehiclePid = function(req, res) {
 			console.log(vehicleu);
 			res.send(err);
 		}
-		v = vehicleu;		
+		v = vehicleu;
 		//res.json(vehicleu);
 	});
 	});
 	}
-	
-	
+
+
 	Vehicle.findOneAndUpdate({vid: req.params.vid}, {$push: {"data": value}}, {safe:true, upsert: true}, function(err, vehicle) {
 	if(err)
 		res.send(err)
@@ -262,12 +264,12 @@ exports.updateVehiclePid = function(req, res) {
 		console.log(vehicleu);
 		res.send(err);
 	}
-	v = vehicleu;		
+	v = vehicleu;
 	//res.json(vehicleu);
 	});
 	});
 
-	
+
 	res.json(v);
 };
 
