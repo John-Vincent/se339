@@ -76,7 +76,7 @@ exports.comparePassword = function(req, res, next){
         bcrypt.compare(req.body.password, manager.password, function(err, isMatch) {
             if(err) throw err;
             if(isMatch) {
-                var exp = Math.floor(Date.now() / 1000) + (60 * 10);
+                var exp = Math.floor(Date.now() / 1000) + (60 * 120);
                 var token = jwt.sign(
                     {
                         exp: exp,
@@ -125,7 +125,7 @@ exports.updateVehicles = function(req, res) {
             res.send(err);
         if(!vehicle){
             result = new Vehicle(req.body);
-            
+
             result.save(function(err, vehiclen) {
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');

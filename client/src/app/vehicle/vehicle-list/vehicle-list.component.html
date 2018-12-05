@@ -8,9 +8,9 @@
             <th>VID</th>
             <th>Message</th>
         </tr>
-        <tr class="data" *ngFor="let vehicle of vehicles" (click)="select(vehicle)">
-            <td>{{vehicle.vid}}</td>
-            <td>{{vehicle.msg}}</td>
+        <tr class="data" *ngFor="let vehicle of vehicles">
+            <td (click)="select(vehicle)">{{vehicle.vid}}</td>
+            <td (click)="select(vehicle)">{{vehicle.msg}}</td>
             <td><button (click)="delete(vehicle)">Delete</button></td>
         </tr>
     </table>

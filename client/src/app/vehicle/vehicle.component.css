@@ -33,3 +33,7 @@ tr.data:hover{
     background-color: #7FFFD4;
     cursor:pointer;
 }
+
+button{
+    cursor: pointer;
+}

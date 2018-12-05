@@ -76,8 +76,7 @@ exports.updateVehicle = function(req, res) {
 
 exports.apiUpdateVehicle = function(req,res)
 {
-    console.log('Log');
-    console.log(req.body);
+    console.log('apiupdateVehicle');
     var set = {};
     for(var i = 0; i < keys.length; i++)
     {
@@ -88,6 +87,7 @@ exports.apiUpdateVehicle = function(req,res)
     }
     Vehicle.updateOne({ vid: req.params.vid }, { $set: set }, function (err, vehicle) {
         if (err) {
+            console.log('update error');
             next(err);
             return;
         }
@@ -98,6 +98,7 @@ exports.apiUpdateVehicle = function(req,res)
         {
             if(err)
             {
+                console.log('find error');
                 next(err);
                 return;
             }

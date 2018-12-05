@@ -75,6 +75,7 @@ export class VehicleComponent implements OnInit {
         {
             console.log(err);
             alert(err.message);
+            this.fetchVehicle();
         });
     }
 
