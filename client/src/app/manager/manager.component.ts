@@ -17,8 +17,8 @@ import { Vehicle } from '../models/vehicle.model';
 export class ManagerComponent implements OnInit 
 {
     private manager: Manager;
-    private addingVehicle: boolean;
-    private creatingVehicle: boolean;
+    private addingVehicle: Boolean;
+    private creatingVehicle: Boolean;
     private allVehicles: Array<Vehicle>
     private createdVehicle: Vehicle;
 
@@ -42,14 +42,35 @@ export class ManagerComponent implements OnInit
 
     ngOnInit() 
     {
+        var that = this;
         this.addingVehicle = false;
         this.creatingVehicle = false;
 
-        //change this to api calls
         this.manager = this.authService.getManager();
+        this.getAndStoreManagerVehicles(that);
+        this.getAndStoreAllVehicles(that);
+    }
 
-        this.getAndStoreAllVehicles();
-        console.log(this.manager); 
+    viewVehicle(vehicle: Vehicle)
+    {
+        console.log(vehicle);
+        this.router.navigateByUrl(`/vehicle/${vehicle.vid}`);
+    }
+
+    deleteVehicle(vehicle: Vehicle)
+    {
+        var that = this;
+        console.log("Deleting vehicle ", JSON.stringify(vehicle));
+        this.apiService.deleteManagerVehicle(this.manager, vehicle)
+            .then((res) => 
+            {
+                console.log(res);
+                that.getAndStoreManagerVehicles(that);
+            })
+            .catch((err) =>
+            {
+                console.log(err);
+            })
     }
 
     setAddVehicleView()
@@ -64,7 +85,7 @@ export class ManagerComponent implements OnInit
 
     addVehicle(vehicle: Vehicle)
     {
-        console.log("Adding Vehicle: " + vehicle);
+        console.log("Adding Vehicle: " + JSON.stringify(vehicle));
         var that = this;
 
         this.apiService.updateManagerVehicles(this.manager, vehicle)
@@ -73,12 +94,9 @@ export class ManagerComponent implements OnInit
                 //this code will be removed in favor of updating from the db
                 alert("Vehicle added successfully");
                 that.manager.vehicles = res;
-                console.log(res);
             })
             .catch(this.addVehicleFailure);
     }
-
-
 
     private addVehicleFailure(err)
     {
@@ -96,22 +114,9 @@ export class ManagerComponent implements OnInit
         this.creatingVehicle = false;
     }
 
-    private getAndStoreAllVehicles()
-    {
-        var that = this;
-
-        this.apiService.getVehicles()
-            .then((data) => {
-                that.allVehicles = data;
-            }).catch((err) => 
-            {
-                console.log("Error loading vehicles", err);
-            });
-    }
-
     createVehicle()
     {
-        this.createdVehicle = new Vehicle(this.enteredVid, this.enteredGasTankSize, this.enteredBitrate, this.enteredMsg);
+        this.createdVehicle = new Vehicle(this.enteredVid.nativeElement.value, this.enteredGasTankSize.nativeElement.value, this.enteredBitrate.nativeElement.value, this.enteredMsg.nativeElement.value);
         this.apiService.updateManagerVehicles(this.manager, this.createdVehicle)
             .then(this.createVehicleSuccess)
             .catch(this.createVehicleFailure);
@@ -127,5 +132,27 @@ export class ManagerComponent implements OnInit
     {
         alert("Vehicle Creation Failed");
         console.log(err);
+    }
+
+    private getAndStoreAllVehicles(that: any)
+    {
+        this.apiService.getVehicles()
+            .then((data) => {
+                that.allVehicles = data;
+            }).catch((err) => 
+            {
+                console.log("Error loading vehicles", err);
+            });
+    }
+
+    private getAndStoreManagerVehicles(that: any)
+    {
+        that.apiService.getManagerVehicles(that.manager)
+            .then((data) => {
+                that.manager.vehicles = data;
+            }).catch((err) => 
+            {
+                console.log("Error loading manager's vehicles", err);
+            });
     }
 }

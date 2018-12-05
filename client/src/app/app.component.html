@@ -1,13 +1,13 @@
 <div class="container">
-    <a class="button" href="/dashboard">
+    <button (click)="dashboard()">
         Dashboard
-    </a>
-    <a class="button" href="/vehicle">
+    </button>
+    <button (click)="vehicleList()">
         Vehicle List
-    </a>
-    <div class="button" (click)="logout()">
+    </button>
+    <button (click)="logout()">
         Logout
-    </div>
+    </button>
 </div>
 <!--The content below is only a placeholder and can be replaced.-->
 <router-outlet></router-outlet>

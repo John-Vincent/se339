@@ -18,6 +18,9 @@ export class RegisterComponent implements OnInit
     @ViewChild('password')
     private password;
 
+    @ViewChild('confirmPassword')
+    private confirmPassword;
+
     private manager: Manager;
 
     constructor(
@@ -34,10 +37,17 @@ export class RegisterComponent implements OnInit
 
     register()
     {
-        // console.log(this.username.nativeElement.value);
-        // console.log(this.password.nativeElement.value);
-        this.manager = new Manager(this.username.nativeElement.value, this.password.nativeElement.value);
-        this.authService.register(this.manager).then(this.registerSuccessful).catch(this.registerFailed);
+        if(this.password.nativeElement.value == this.confirmPassword.nativeElement.value)
+        {
+            this.manager = new Manager(this.username.nativeElement.value, this.password.nativeElement.value);
+            this.authService.register(this.manager)
+                .then(this.registerSuccessful)
+                .catch(this.registerFailed);
+        } 
+        else
+        {
+            alert("Passwords do not match");
+        }        
     }
 
     private registerSuccessful(res)

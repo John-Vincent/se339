@@ -15,17 +15,17 @@
 </div>
 <div *ngIf="!edit">
 
-    <h2>
+    <h4>
         Bitrate: {{vehicle.bitrate}}
-    </h2>
+    </h4>
 
-    <h2>
+    <h4>
         GasTankSize: {{vehicle.gasTankSize}}
-    </h2>
+    </h4>
 
-    <h2>
+    <h4>
         Message: {{vehicle.msg}}
-    </h2>
+    </h4>
 
     <iframe *ngIf="vehicle.mrLong && vehicle.mrLat" class="frame" frameborder="0" [src]="url" allowfullscreen>
     </iframe>
@@ -61,17 +61,17 @@
     </table>
 </div>
 <div *ngIf="edit">
-    <h2>
+    <h4>
         Bitrate: <input type="text" value="{{vehicle.bitrate}}" (keyup)="alterValue('bitrate',$event)">
-    </h2>
+    </h4>
 
-    <h2>
+    <h4>
         GasTankSize: <input type="text" value="{{vehicle.gasTankSize}}" (keyup)="alterValue('gasTankSize',$event)">
-    </h2>
+    </h4>
 
-    <h2>
+    <h4>
         Message: <input type="text" value="{{vehicle.msg}}" (keyup)="alterValue('msg',$event)">
-    </h2>
+    </h4>
 
     <table>
         <tr>

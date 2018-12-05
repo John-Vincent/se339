@@ -86,6 +86,8 @@ exports.apiUpdateVehicle = function(req,res)
         }
     }
     Vehicle.updateOne({ vid: req.params.vid }, { $set: set }, function (err, vehicle) {
+
+        console.log("Vehicle to update: " + vehicle);
         if (err) {
             console.log('update error');
             next(err);
@@ -96,6 +98,7 @@ exports.apiUpdateVehicle = function(req,res)
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         Vehicle.findOne({vid: req.params.vid}, function(err, vehicle)
         {
+            console.log("Vehicle to return: " + vehicle);
             if(err)
             {
                 console.log('find error');

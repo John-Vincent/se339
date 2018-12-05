@@ -20,4 +20,14 @@ export class AppComponent {
         this.auth.logout();
         this.router.navigateByUrl('/login');
     }
+
+    public vehicleList()
+    {
+        this.router.navigateByUrl('/vehicle');
+    }
+
+    public dashboard()
+    {
+        this.router.navigateByUrl('/dashboard');
+    }
 }

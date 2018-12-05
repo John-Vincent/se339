@@ -165,12 +165,12 @@ export class ApiService {
         }).catch(this.unauth);
     }
 
-    public getManagerVehicles(manager: Manager): Promise<Vehicle[]>
+    public getManagerVehicles(manager: Manager): Promise<any[]>
     {
-        return new Promise<Vehicle[]>((resolve, reject)=>
+        return new Promise<any[]>((resolve, reject)=>
         {
             this.http.get(`/api/manager/${manager.username}`, this.getOptions())
-                .subscribe((data:Vehicle[])=>
+                .subscribe((data:any[])=>
                 {
                     resolve(data);
                 },
@@ -197,11 +197,11 @@ export class ApiService {
         }).catch(this.unauth);
     }
 
-    public deleteManagerVehicles(manager: Manager): Promise<Vehicle>
+    public deleteManagerVehicle(manager: Manager, vehicle: Vehicle): Promise<Vehicle>
     {
         return new Promise<Vehicle>((resolve, reject)=>
         {
-            this.http.delete(`/api/manager/${manager.username}`, this.getOptions())
+            this.http.delete(`/api/manager/${manager.username}?vid=${vehicle.vid}`, this.getOptions())
                 .subscribe((data:any)=>
                 {
                     resolve(data);

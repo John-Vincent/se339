@@ -66,10 +66,11 @@ export class VehicleComponent implements OnInit {
     public saveVehicle()
     {
         this.api.saveVehicle(this.vehicle)
-        .then((ans)=>
+        .then((res)=>
         {
-            this.vehicle = ans;
+            this.vehicle = res;
             this.edit = false;
+            this.url = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.google.com/maps/embed/v1/view?key=AIzaSyAcIDWkAcEX_Ck8UsD61BTxCEJrYZ5wta0&center=${res.mrLat},${res.mrLong}&zoom=18&maptype=satellite`);
         })
         .catch((err)=>
         {

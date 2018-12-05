@@ -1,8 +1,10 @@
 <h1>
-    Vehcile List
+    Vehicle List
 </h1>
 
-<div class="center">
+<button *ngIf="!creatingVehicle" (click)="setCreateVehicleView()">Create Vehicle</button>
+
+<div *ngIf="!creatingVehicle" class="center">
     <table>
         <tr>
             <th>VID</th>
@@ -14,4 +16,30 @@
             <td><button (click)="delete(vehicle)">Delete</button></td>
         </tr>
     </table>
+</div>
+
+<div *ngIf="creatingVehicle">
+        <h4>Enter Vehicle Information</h4>
+        <label for="vid">Vehicle ID</label>
+        <br/>
+        <input type="text" #vid>
+        <br/>
+    
+        <label for="gasTankSize">Gas Tank Size</label>
+        <br/>
+        <input type="text" #gasTankSize>
+        <br/>
+    
+        <label for="bitrate">Bitrate</label>
+        <br/>
+        <input type="text" #bitrate>
+        <br/>
+    
+        <label for="msg">Initial Message</label>
+        <br/>
+        <input type="text" #msg>
+        <br/>
+    
+        <button (click)="createVehicle()">Create</button>
+        <button (click)="unsetCreateVehicleView()">Back</button>
 </div>
