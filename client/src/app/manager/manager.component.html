@@ -1,10 +1,15 @@
 <h1>{{manager.username}}'s Fleet</h1>
 <div>
-    
+
 </div>
+<<<<<<< HEAD
 <div *ngIf="!addingVehicle">
     <button (click)="setAddVehicleView()">Add Vehicle to Fleet</button>
     <br/>
+=======
+<div *ngIf="!addingVehicles">
+    <button (click)="addVehicleView()">Add Vehicle</button>
+>>>>>>> wokred on the vehicle pages
     <li *ngFor="let vehicle of manager.vehicles">
         Vehicle {{vehicle.vid}} <button (click)="viewVehicle(vehicle)">View</button>
     </li>

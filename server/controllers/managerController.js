@@ -77,16 +77,18 @@ exports.comparePassword = function(req, res, next){
             if(err) throw err;
             if(isMatch) {
                 var exp = Math.floor(Date.now() / 1000) + (60 * 10);
+                var token = jwt.sign(
+                    {
+                        exp: exp,
+                        data: JSON.stringify(manager)
+                    },
+                    jwt_secret
+                );
+                console.log(token);
                 res.json(
                     {
                         Validated: true,
-                        access_token: jwt.sign(
-                            {
-                                exp: exp,
-                                data: JSON.stringify(manager)
-                            },
-                            jwt_secret
-                        ),
+                        access_token: token,
                         manager: manager,
                         expiration: new Date(1000*exp).toUTCString()
                     });

@@ -1,3 +1,96 @@
-<p>
-  vehicle works!
-</p>
+
+<div class="container">
+    <h1>
+        Vehicle {{vehicle.vid}}
+    </h1>
+    <button *ngIf="!edit" (click)="editVehicle()">
+        Edit
+    </button>
+    <button *ngIf="edit" (click)="saveVehicle()">
+        Save
+    </button>
+    <button *ngIf="edit" (click)="cancelEdit()">
+        Cancel
+    </button>
+</div>
+<div *ngIf="!edit">
+
+    <h2>
+        Bitrate: {{vehicle.bitrate}}
+    </h2>
+
+    <h2>
+        GasTankSize: {{vehicle.gasTankSize}}
+    </h2>
+
+    <h2>
+        Message: {{vehicle.msg}}
+    </h2>
+
+    <iframe *ngIf="vehicle.mrLong && vehicle.mrLat" width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyAcIDWkAcEX_Ck8UsD61BTxCEJrYZ5wta0&center={{vehicle.mrLat}},{{vehicle.mrLong}}&zoom=18&maptype=satellite" allowfullscreen>
+    </iframe>
+
+    <table>
+        <tr>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>speed</th>
+            <th>gas</th>
+            <th>did</th>
+            <th>engineTemp</th>
+            <th>engineLoad</th>
+        </tr>
+        <tr>
+            <td>{{vehicle.mrLat}}</td>
+            <td>{{vehicle.mrLong}}</td>
+            <td>{{vehicle.mrSpeed}}</td>
+            <td>{{vehicle.mrGas}}</td>
+            <td>{{vehicle.mrDid}}</td>
+            <td>{{vehicle.mrEngineTemp}}</td>
+            <td>{{vehicle.mrEngineLoad}}</td>
+        </tr>
+        <tr *ngFor="let data of vehicle.data">
+            <td>{{data.latitude}}</td>
+            <td>{{data.longitude}}</td>
+            <td>{{data.speed}}</td>
+            <td>{{data.gas}}</td>
+            <td>{{data.did}}</td>
+            <td>{{data.engineTemp}}</td>
+            <td>{{data.engineLoad}}</td>
+        </tr>
+    </table>
+</div>
+<div *ngIf="edit">
+    <h2>
+        Bitrate: <input type="text" value="{{vehicle.bitrate}}" (keyup)="alterValue('bitrate',$event)">
+    </h2>
+
+    <h2>
+        GasTankSize: <input type="text" value="{{vehicle.gasTankSize}}" (keyup)="alterValue('gasTankSize',$event)">
+    </h2>
+
+    <h2>
+        Message: <input type="text" value="{{vehicle.msg}}" (keyup)="alterValue('msg',$event)">
+    </h2>
+
+    <table>
+        <tr>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>speed</th>
+            <th>gas</th>
+            <th>did</th>
+            <th>engineTemp</th>
+            <th>engineLoad</th>
+        </tr>
+        <tr>
+            <td><input type="text" value="{{vehicle.mrLat}}" (keyup)="alterValue('mrLat',$event)"></td>
+            <td><input type="text" value="{{vehicle.mrLong}}" (keyup)="alterValue('mrLong',$event)"></td>
+            <td><input type="text" value="{{vehicle.mrSpeed}}" (keyup)="alterValue('mrSpeed',$event)"></td>
+            <td><input type="text" value="{{vehicle.mrGas}}" (keyup)="alterValue('mrGas',$event)"></td>
+            <td><input type="text" value="{{vehicle.mrDid}}" (keyup)="alterValue('mrDid',$event)"></td>
+            <td><input type="text" value="{{vehicle.mrEngineTemp}}" (keyup)="alterValue('mrEngineTemp',$event)"></td>
+            <td><input type="text" value="{{vehicle.mrEngineLoad}}" (keyup)="alterValue('mrEngineLoad',$event)"></td>
+        </tr>
+    </table>
+</div>

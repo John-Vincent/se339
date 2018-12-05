@@ -1,0 +1,35 @@
+
+
+.center{
+    text-align: center;
+    height: 100%;
+    width: 100%;
+}
+
+table{
+    margin: 0 auto;
+}
+
+tr{
+    height: 31px;
+    max-height: 31px;
+}
+
+tr td{
+    height:16px;
+    border: solid;
+    border-width: 2px;
+    border-color: black;
+}
+
+tr th{
+    height:16px;
+    border-bottom: solid;
+    border-width: 2px;
+    border-color: black;
+}
+
+tr.data:hover{
+    background-color: #7FFFD4;
+    cursor:pointer;
+}

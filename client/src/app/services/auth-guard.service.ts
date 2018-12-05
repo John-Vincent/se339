@@ -22,6 +22,11 @@ export class AuthGuardService implements CanActivate {
             else
                 return true;
         }
+        else
+        {
+            localStorage.removeItem('expiration');
+            localStorage.removeItem('access_token');
+        }
         if(!login)
             this.router.navigateByUrl('/login');
         return login;

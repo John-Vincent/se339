@@ -13,7 +13,7 @@ export class Vehicle
     public gasTankSize: Number;
     public data: VehicleData[]
 
-    constructor(vid: Number, gasTankSize: Number, bitrate: Number, msg: String)
+    constructor(vid?: Number, gasTankSize?: Number, bitrate?: Number, msg?: String)
     {
         this.vid = vid;
         this.gasTankSize = gasTankSize;
@@ -24,7 +24,7 @@ export class Vehicle
 
 export class VehicleData {
     public latitude: Number;
-    public longitue: Number;
+    public longitude: Number;
     public speed: Number;
     public gas: Number;
     public did: Number;
