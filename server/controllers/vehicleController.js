@@ -1,6 +1,8 @@
 var mongoose = require('mongoose'),
     Vehicle = mongoose.model('Vehicles');
-    Data = mongoose.model('Datas');
+    Data = mongoose.model('Datas'),
+    keys = ['mrLat', 'mrLong', 'msg', 'bitrate', 'mrDid', 'mrGas', 'gasTankSize', 'mrSpeed', 'mrDid', 'mrEngineLoad', 'mrEngineTemp'];
+
 
 exports.listAll = function(req, res) {
     var query = Vehicle.find({}).select({});
@@ -76,18 +78,13 @@ exports.apiUpdateVehicle = function(req,res)
 {
     console.log('Log');
     console.log(req.body);
-    var set =
+    var set = {};
+    for(var i = 0; i < keys.length; i++)
     {
-        mrLat: req.body.mrLat,
-        mrLong: req.body.mrLong,
-        mrSpeed: req.body.mrSpeed,
-        bitrate: req.body.bitrate,
-        gasTankSize: req.body.gasTankSize,
-        msg: req.body.msg,
-        mrGas: req.body.mrGas,
-        mrDid: req.body.mrDid,
-        mrEngineLoad: req.body.mrEngineLoad,
-        mrEngineTemp: req.body.mrEngineLoad
+        if(req.body[keys[i]])
+        {
+            set[keys[i]] = req.body[keys[i]];
+        }
     }
     Vehicle.updateOne({ vid: req.params.vid }, { $set: set }, function (err, vehicle) {
         if (err) {
