@@ -89,7 +89,7 @@ export class ApiService {
     {
         return new Promise<Vehicle>((resolve,reject)=>
         {
-            this.http.put(`/api/vehicle/${vehicle.vid}`, vehicle, this.getOptions())
+            this.http.put(`/api/vehicle/new/${vehicle.vid}`, vehicle, this.getOptions())
                 .subscribe((data:Vehicle)=>
                 {
                     resolve(data);

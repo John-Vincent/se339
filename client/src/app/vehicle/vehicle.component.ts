@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { Vehicle, VehicleData } from '../models/vehicle.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-vehicle',
@@ -16,11 +17,14 @@ export class VehicleComponent implements OnInit {
 
     private edit:boolean = false;
 
+    private url:SafeUrl;
+
     constructor(
         private api: ApiService,
         private auth: AuthService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private sanitizer: DomSanitizer
     ) { }
 
     ngOnInit() {
@@ -36,6 +40,7 @@ export class VehicleComponent implements OnInit {
         this.api.getVehicle(this.vehicle)
             .then((res) => {
                 that.vehicle = res;
+                this.url = this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.google.com/maps/embed/v1/view?key=AIzaSyAcIDWkAcEX_Ck8UsD61BTxCEJrYZ5wta0&center=${res.mrLat},${res.mrLong}&zoom=18&maptype=satellite`);
             })
             .catch((error: HttpErrorResponse) => {
                 alert(error.message);
@@ -60,7 +65,17 @@ export class VehicleComponent implements OnInit {
 
     public saveVehicle()
     {
-
+        this.api.saveVehicle(this.vehicle)
+        .then((ans)=>
+        {
+            this.vehicle = ans;
+            this.edit = false;
+        })
+        .catch((err)=>
+        {
+            console.log(err);
+            alert(err.message);
+        });
     }
 
 }

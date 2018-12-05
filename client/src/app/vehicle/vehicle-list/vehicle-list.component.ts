@@ -23,6 +23,11 @@ export class VehicleListComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.getVehicles();
+    }
+
+    private getVehicles()
+    {
         var that = this;
         this.api.getVehicles()
             .then((res) => {
@@ -41,7 +46,13 @@ export class VehicleListComponent implements OnInit {
 
     public delete(vehicle:Vehicle)
     {
-
+        this.api.deleteVehicle(vehicle)
+            .catch((error)=>
+            {
+                alert(error.message);
+                console.log(error);
+            });
+        this.getVehicles();
     }
 
 }

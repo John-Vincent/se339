@@ -27,7 +27,7 @@
         Message: {{vehicle.msg}}
     </h2>
 
-    <iframe *ngIf="vehicle.mrLong && vehicle.mrLat" width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyAcIDWkAcEX_Ck8UsD61BTxCEJrYZ5wta0&center={{vehicle.mrLat}},{{vehicle.mrLong}}&zoom=18&maptype=satellite" allowfullscreen>
+    <iframe *ngIf="vehicle.mrLong && vehicle.mrLat" width="600" height="450" frameborder="0" style="border:0" [src]="url" allowfullscreen>
     </iframe>
 
     <table>

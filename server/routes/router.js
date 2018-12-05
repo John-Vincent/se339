@@ -45,6 +45,10 @@ auth.route('/vehicle/:vid')
     .put(vehicle.updateVehicle)
     .delete(vehicle.deleteByUid);
 
+auth.route('/vehicle/new/:vid')
+    .all(authguard)
+    .put(vehicle.apiUpdateVehicle);
+
 auth.route('/vehicle/message/:vid')
     .all(authguard)
     .put(vehicle.updateMessage);

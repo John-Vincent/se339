@@ -54,6 +54,7 @@ exports.updateVehicle = function(req, res) {
     console.log('Log');
     console.log(req.body);
     Vehicle.findOneAndUpdate({vid: req.params.vid}, {$push: {"data": req.body }, $set: {"mrLat": req.body.latitude, "mrLong": req.body.longitude, "mrSpeed": req.body.speed, "mrGas": req.body.gas, "mrDid": req.body.did}}, {safe: true, upsert: true}, function(err, vehicle) {
+        if(err) throw err;
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
@@ -70,6 +71,43 @@ exports.updateVehicle = function(req, res) {
         });
     });
 };
+
+exports.apiUpdateVehicle = function(req,res)
+{
+    console.log('Log');
+    console.log(req.body);
+    var set =
+    {
+        mrLat: req.body.mrLat,
+        mrLong: req.body.mrLong,
+        mrSpeed: req.body.mrSpeed,
+        bitrate: req.body.bitrate,
+        gasTankSize: req.body.gasTankSize,
+        msg: req.body.msg,
+        mrGas: req.body.mrGas,
+        mrDid: req.body.mrDid,
+        mrEngineLoad: req.body.mrEngineLoad,
+        mrEngineTemp: req.body.mrEngineLoad
+    }
+    Vehicle.updateOne({ vid: req.params.vid }, { $set: set }, function (err, vehicle) {
+        if (err) {
+            next(err);
+            return;
+        }
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
+        Vehicle.findOne({vid: req.params.vid}, function(err, vehicle)
+        {
+            if(err)
+            {
+                next(err);
+                return;
+            }
+            res.send(vehicle);
+        });
+    });
+}
 
 exports.updateMessage = function(req, res) {
     Vehicle.findOneAndUpdate({vid: req.params.vid}, {$set: {"msg": req.body.msg}}, {safe: true, upsert: true}, function(err, vehicle) {
@@ -273,6 +311,9 @@ exports.updateVehiclePid = function(req, res) {
 };
 
 exports.deleteByUid = function(req, res) {
+    console.log("deleteByUid");
+    if(req.params.vid == "undefined")
+        req.params.vid = null;
     Vehicle.remove({vid: req.params.vid}, function(err, vehicle) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
@@ -284,6 +325,7 @@ exports.deleteByUid = function(req, res) {
 };
 
 exports.deletePid = function(req, res) {
+    console.log("deletePid");
     Vehicle.update({vid: req.params.vid}, {$pullAll: {pid: [req.params.pid] }}, function(err, vehicle) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
