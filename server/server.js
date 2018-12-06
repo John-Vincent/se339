@@ -45,7 +45,7 @@ app.use(function (req, res, next) {
  * catches all errors that are passed to the next function in express routes, and then
  * renders the error page with details from the error.
  */
-app.use(function (err, req, res, next) {
+app.error(function (err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};

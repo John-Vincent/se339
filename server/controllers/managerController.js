@@ -6,56 +6,63 @@ var jwt = require('jsonwebtoken');
 
 const BAD_REQUEST = 400;
 
-exports.create = function(req, res) {
-    if(req.body && req.body.username && req.body.password){
-        var newManager = new Manager ({
-            username: req.body.username,
-            password: req.body.password
-        });
+exports.create = function(req, res, next) {
+    try
+    {
+        if(req.body && req.body.username && req.body.password){
+            var newManager = new Manager ({
+                username: req.body.username,
+                password: req.body.password
+            });
 
-        //check if manager already exists
-        Manager.findOne({username: newManager.username}, function(err, record){
-            if(record)
-            {
-                res.status(BAD_REQUEST).send("Manager with that username or email already exists,\nplease enter different information");
-            } else {
-                bcrypt.genSalt(10, function(err, salt) {
-                    bcrypt.hash(newManager.password, salt, function(err, hash) {
-                        newManager.password = hash;
-                        newManager.save(function(error, manager) {
-                            res.setHeader('Access-Control-Allow-Origin', '*');
-                            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-                            res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
-                            if (error) res.send(error);
-                            res.json(manager);
+            //check if manager already exists
+            Manager.findOne({username: newManager.username}, function(err, record){
+                if(record)
+                {
+                    res.status(BAD_REQUEST).send("Manager with that username or email already exists,\nplease enter different information");
+                } else {
+                    bcrypt.genSalt(10, function(err, salt) {
+                        bcrypt.hash(newManager.password, salt, function(err, hash) {
+                            newManager.password = hash;
+                            newManager.save(function(error, manager) {
+                                res.setHeader('Access-Control-Allow-Origin', '*');
+                                res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+                                res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
+                                if (error) res.send(error);
+                                res.json(manager);
+                            });
                         });
                     });
-                });
-            }
-        });
-    } else {
-        res.status(BAD_REQUEST).send("Request is missing username, password, or email. All three are required.");
+                }
+            });
+        } else {
+            res.status(BAD_REQUEST).send("Request is missing username, password, or email. All three are required.");
+        }
+    }
+    catch(err)
+    {
+        next(err);
     }
 };
 
-exports.deleteByUsername = function(req, res) {
+exports.deleteByUsername = function(req, res, next) {
     Manager.remove({username: req.params.username}, function(err, manager) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            res.send(err)
+            next(err)
         res.json(manager);
     });
 };
 
-exports.listAll = function(req, res) {
+exports.listAll = function(req, res, next) {
     Manager.find({}, function(err, ex) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            res.send(err)
+            next(err);
         res.json(ex);
     });
 };
@@ -72,9 +79,14 @@ exports.comparePassword = function(req, res, next){
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            res.send(err);
+            next(err);
+        if(!manager)
+        {
+            next('username or password is incorrect');
+        }
         bcrypt.compare(req.body.password, manager.password, function(err, isMatch) {
-            if(err) throw err;
+            if(err)
+                next(err);
             if(isMatch) {
                 var exp = Math.floor(Date.now() / 1000) + (60 * 120);
                 var token = jwt.sign(
@@ -94,22 +106,22 @@ exports.comparePassword = function(req, res, next){
                     });
             }
             else {
-                res.json({ Validated: false});
+                next('username or password is incorrect');
             }
         });
     });
 };
 
-exports.updateVehicles = function(req, res) {
+exports.updateVehicles = function(req, res, next) {
     Manager.findOneAndUpdate({username: req.params.username}, {$push: {"vehicles": req.body}}, {safe: true, upsert: true}, function(err, manager) {
         if(err)
-            res.send(err);
+            next(err);
         Manager.findOne({username: manager.username}, function(err, managerv) {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
             res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
             if(err)
-                res.send(err);
+                next(err);
             res.json(managerv.vehicles);
 
             return;
@@ -122,7 +134,7 @@ exports.updateVehicles = function(req, res) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            res.send(err);
+            next(err);
         if(!vehicle){
             result = new Vehicle(req.body);
 
@@ -131,47 +143,47 @@ exports.updateVehicles = function(req, res) {
                 res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
                 res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
                 if(err)
-                    res.send(err);
+                    next(err);
                 //res.json(vehiclen);
             });
         }
     });
 };
 
-exports.getVehicles = function(req, res) {
+exports.getVehicles = function(req, res, next) {
     Manager.findOne({username: req.params.username}, function(err, manager) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            res.send(err);
+            next(err);
         res.json(manager.vehicles);
     });
 };
 
-exports.updateChart = function(req, res) {
+exports.updateChart = function(req, res, next) {
     Manager.findOneAndUpdate({username: req.params.user}, {$push: {"charts": req.body }}, {safe: true, upsert: true}, function(err, manager) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            res.send(err)
+            next(err)
         res.json(manager);
     });
 };
 
-exports.getChart = function(req, res) {
+exports.getChart = function(req, res, next) {
     Manager.findOne({username: req.params.user}, function(err, manager) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            res.send(err);
+            next(err);
         res.json(manager.charts);
     });
 };
 
-exports.editChart = function(req, res) {
+exports.editChart = function(req, res, next) {
     Manager.update({'charts.name': req.body.name}, {'$set': {
         'charts.$.active': req.body.active
     }}, function(err) {
@@ -179,21 +191,21 @@ exports.editChart = function(req, res) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            res.send(err)
+            next(err)
         res.json({ Success: true});
     });
 };
 
-exports.deleteVehicle = function(req, res) {
+exports.deleteVehicle = function(req, res, next) {
     console.log(req.params, req.query);
     req.query.vid = req.query.vid == "undefined" ? null : req.query.vid;
-    
+
     Manager.findOneAndUpdate({username: req.params.username}, {$pull: {'vehicles': { vid: req.query.vid} }}, {safe: true, upsert: true}, function(err, manager) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            res.send(err)
+            next(err)
         res.json(manager);
     });
 };
