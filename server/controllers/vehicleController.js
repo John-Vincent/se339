@@ -12,7 +12,10 @@ exports.listAll = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         res.json(vehicle);
     });
 };
@@ -24,7 +27,10 @@ exports.create = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
+        {
             next(err);
+            return;
+        }
         if(!vehicle){
             result = new Vehicle(req.body);
         }
@@ -33,7 +39,10 @@ exports.create = function(req, res, next) {
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
             res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
             if(err)
+            {
                 next(err);
+                return;
+            }
             res.json(vehiclen);
         });
     });
@@ -46,7 +55,10 @@ exports.getByUid = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
+        {
             next(err);
+            return;
+        }
         res.json(vehicle);
     });
 };
@@ -61,13 +73,17 @@ exports.updateVehicle = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         Vehicle.findOne({vid: vehicle.vid}, function(err, vehicleu) {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
             res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
-            if(err)
+            if(err){
                 next(err);
+                return;}
             res.json(vehicleu);
             console.log('Executed');
         });
@@ -88,7 +104,8 @@ exports.apiUpdateVehicle = function(req, res, next)
     Vehicle.updateOne({ vid: req.params.vid }, { $set: set }, function (err, vehicle) {
 
         console.log("Vehicle to update: " + vehicle);
-        if (err) {
+        if (err)
+        {
             console.log('update error');
             next(err);
             return;
@@ -116,11 +133,17 @@ exports.updateMessage = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         Vehicle.findOne({vid: vehicle.vid}, function(err, vehicleu) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         if(err)
+        {
             next(err);
+            return;
+        }
         res.json(vehicleu);
     });
     });
@@ -133,7 +156,10 @@ exports.init = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
+        {
             next(err);
+            return;
+        }
             console.log('test');
         res.json({ bitrate: vehicle.bitrate, pids: vehicle.pids});
     });
@@ -146,11 +172,17 @@ exports.updatePid = function(req, res, next) {
     Vehicle.findOneAndUpdate({vid: req.params.vid}, {$push: {"pids": req.body }}, {safe: true, upsert: true}, function(err, vehicle) {
 
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         Vehicle.findOne({vid: vehicle.vid}, function(err, vehicleu) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         if(err)
+        {
             next(err);
+            return;
+        }
         res.json(vehicleu);
     });
     });
@@ -172,7 +204,10 @@ exports.updateVehiclePid = function(req, res, next) {
     Vehicle.findOne({vid: req.params.vid}, function(err, vehicle) {
 
         if(err)
-            //next(err);
+        {
+            next(err);
+            return;
+        }
         tank = vehicle.gasTankSize;
     });
     //console.log(tank);
@@ -216,8 +251,9 @@ exports.updateVehiclePid = function(req, res, next) {
     //console.log(req.params);
     if(speed == 1){
         Vehicle.findOneAndUpdate({vid: req.params.vid}, {$set: {"mrSpeed": value.speed, "mrDid": req.body.did}}, {safe:true, upsert: true}, function(err, vehicle) {
-        if(err)
-            next(err)
+        if(err){
+            next(err);
+            return;}
         Vehicle.findOne({vid: req.params.vid}, function(err, vehicleu) {
         if(err)
         {
@@ -232,7 +268,10 @@ exports.updateVehiclePid = function(req, res, next) {
     if(gas == 1){
         Vehicle.findOneAndUpdate({vid: req.params.vid}, {$set: {"mrGas": value.gas, "mrDid": req.body.did}}, {safe:true, upsert: true}, function(err, vehicle) {
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         Vehicle.findOne({vid: req.params.vid}, function(err, vehicleu) {
         if(err)
         {
@@ -247,7 +286,10 @@ exports.updateVehiclePid = function(req, res, next) {
     if(engineLoad == 1){
         Vehicle.findOneAndUpdate({vid: req.params.vid}, {$set: {"mrEngineLoad": value.engineLoad, "mrDid": req.body.did}}, {safe:true, upsert: true}, function(err, vehicle) {
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         Vehicle.findOne({vid: req.params.vid}, function(err, vehicleu) {
         if(err)
         {
@@ -262,7 +304,10 @@ exports.updateVehiclePid = function(req, res, next) {
     if(temp == 1){
         Vehicle.findOneAndUpdate({vid: req.params.vid}, {$set: {"mrEngineTemp": value.engineTemp, "mrDid": req.body.did}}, {safe:true, upsert: true}, function(err, vehicle) {
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         Vehicle.findOne({vid: req.params.vid}, function(err, vehicleu) {
         if(err)
         {
@@ -279,7 +324,10 @@ exports.updateVehiclePid = function(req, res, next) {
         value["longitude"] = req.body.longitude;
         Vehicle.findOneAndUpdate({vid: req.params.vid}, {$set: {"mrLat": req.body.latitude, "mrLong": req.body.longitude}}, {safe:true, upsert: true}, function(err, vehicle) {
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         Vehicle.findOne({vid: req.params.vid}, function(err, vehicleu) {
         if(err)
         {
@@ -295,7 +343,10 @@ exports.updateVehiclePid = function(req, res, next) {
 
     Vehicle.findOneAndUpdate({vid: req.params.vid}, {$push: {"data": value}}, {safe:true, upsert: true}, function(err, vehicle) {
     if(err)
-        next(err)
+    {
+        next(err);
+        return;
+    }
     Vehicle.findOne({vid: req.params.vid}, function(err, vehicleu) {
     if(err)
     {
@@ -320,7 +371,10 @@ exports.deleteByUid = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         res.json(vehicle);
     });
 };
@@ -332,7 +386,10 @@ exports.deletePid = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         res.json(vehicle);
     });
 };

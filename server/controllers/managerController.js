@@ -50,9 +50,11 @@ exports.deleteByUsername = function(req, res, next) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
-        if(err){
+        if(err)
+        {
             next(err);
-            return;}
+            return;
+        }
         res.json(manager);
     });
 };
@@ -84,12 +86,14 @@ exports.comparePassword = function(req, res, next){
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
         {
+            err.status = 400;
             next(err);
             return;
         }
         if(!manager)
         {
-            next('username or password is incorrect');
+            err = {message: "invalid username or password", status:400};
+            next(err);
             return
         }
         bcrypt.compare(req.body.password, manager.password, function(err, isMatch) {
