@@ -50,8 +50,9 @@ exports.deleteByUsername = function(req, res, next) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
-        if(err)
-            next(err)
+        if(err){
+            next(err);
+            return;}
         res.json(manager);
     });
 };
@@ -62,7 +63,10 @@ exports.listAll = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
+        {
             next(err);
+            return;
+        }
         res.json(ex);
     });
 };
@@ -79,14 +83,21 @@ exports.comparePassword = function(req, res, next){
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
+        {
             next(err);
+            return;
+        }
         if(!manager)
         {
             next('username or password is incorrect');
+            return
         }
         bcrypt.compare(req.body.password, manager.password, function(err, isMatch) {
             if(err)
+            {
                 next(err);
+                return;
+            }
             if(isMatch) {
                 var exp = Math.floor(Date.now() / 1000) + (60 * 120);
                 var token = jwt.sign(
@@ -114,14 +125,18 @@ exports.comparePassword = function(req, res, next){
 
 exports.updateVehicles = function(req, res, next) {
     Manager.findOneAndUpdate({username: req.params.username}, {$push: {"vehicles": req.body}}, {safe: true, upsert: true}, function(err, manager) {
-        if(err)
+        if(err){
             next(err);
+            return;}
         Manager.findOne({username: manager.username}, function(err, managerv) {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
             res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
             if(err)
+            {
                 next(err);
+                return;
+            }
             res.json(managerv.vehicles);
 
             return;
@@ -134,7 +149,10 @@ exports.updateVehicles = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
+        {
             next(err);
+            return;
+        }
         if(!vehicle){
             result = new Vehicle(req.body);
 
@@ -143,7 +161,10 @@ exports.updateVehicles = function(req, res, next) {
                 res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
                 res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
                 if(err)
+                {
                     next(err);
+                    return;
+                }
                 //res.json(vehiclen);
             });
         }
@@ -156,7 +177,10 @@ exports.getVehicles = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
+        {
             next(err);
+            return;
+        }
         res.json(manager.vehicles);
     });
 };
@@ -167,7 +191,10 @@ exports.updateChart = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         res.json(manager);
     });
 };
@@ -178,7 +205,10 @@ exports.getChart = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
+        {
             next(err);
+            return;
+        }
         res.json(manager.charts);
     });
 };
@@ -191,7 +221,10 @@ exports.editChart = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         res.json({ Success: true});
     });
 };
@@ -205,7 +238,10 @@ exports.deleteVehicle = function(req, res, next) {
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Origin,Content-Type,X-Auth-Token');
         if(err)
-            next(err)
+        {
+            next(err);
+            return;
+        }
         res.json(manager);
     });
 };
